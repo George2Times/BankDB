@@ -1,0 +1,12 @@
+DELIMITER $$
+
+CREATE TRIGGER ValidateWithdrawal
+BEFORE UPDATE ON Accounts
+FOR EACH ROW
+BEGIN
+    IF NEW.Balance < 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient balance!';
+    END IF;
+END$$
+
+DELIMITER ;
